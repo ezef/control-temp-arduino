@@ -1,0 +1,418 @@
+# EESchema Netlist Version 1.1 created  mié 06 ago 2014 16:24:50 ART
+(
+ ( /53E16B85 $noname  P14 Linea_220v {Lib=CONN_2}
+  (    1 N-000045 )
+  (    2 N-000042 )
+ )
+ ( /53E16964 $noname  P11 Relay {Lib=CONN_2}
+  (    1 N-000048 )
+  (    2 N-000044 )
+ )
+ ( /53E16960 $noname  REL1 RELAIS_SPST {Lib=RELAIS_SPST}
+  (    1 ? )
+  (    2 N-000045 )
+  (    3 N-000046 )
+  (    4 N-000044 )
+  (    5 N-000048 )
+ )
+ ( /53E16910 $noname  P13 Relay_2 {Lib=CONN_2}
+  (    1 N-000046 )
+  (    2 N-000042 )
+ )
+ ( /53E1690E $noname  P12 Relay_1 {Lib=CONN_2}
+  (    1 N-000049 )
+  (    2 N-000042 )
+ )
+ ( /53E168CA $noname  P16 Linea_220v {Lib=CONN_2}
+  (    1 N-000045 )
+  (    2 N-000042 )
+ )
+ ( /53E165BA $noname  P15 Relay {Lib=CONN_2}
+  (    1 N-000043 )
+  (    2 N-000052 )
+ )
+ ( /53E16033 $noname  REL2 RELAIS_SPST {Lib=RELAIS_SPST}
+  (    1 ? )
+  (    2 N-000045 )
+  (    3 N-000049 )
+  (    4 N-000052 )
+  (    5 N-000043 )
+ )
+ ( /5390BE0C $noname  P9 Relay {Lib=CONN_2}
+  (    1 +5V )
+  (    2 N-000051 )
+ )
+ ( /5390BE09 TO92  Q1 BC547 {Lib=BC548}
+  (    1 N-000051 )
+  (    2 N-000050 )
+  (    3 GND )
+ )
+ ( /5390BE08 $noname  D1 Diodo_1n4001 {Lib=DIODE}
+  (    1 N-000051 )
+  (    2 +5V )
+ )
+ ( /5390BE07 $noname  R8 10k {Lib=R}
+  (    1 /MISO )
+  (    2 N-000050 )
+ )
+ ( /5390BCD0 $noname  R9 10k {Lib=R}
+  (    1 /MOSI )
+  (    2 N-000009 )
+ )
+ ( /5390BCBF $noname  D2 Diodo_1n4001 {Lib=DIODE}
+  (    1 N-000008 )
+  (    2 +5V )
+ )
+ ( /5390BBED TO92  Q2 BC547 {Lib=BC548}
+  (    1 N-000008 )
+  (    2 N-000009 )
+  (    3 GND )
+ )
+ ( /5390BB84 $noname  P10 Relay {Lib=CONN_2}
+  (    1 +5V )
+  (    2 N-000008 )
+ )
+ ( /539092E3 $noname  K1 LM35_2 {Lib=CONN_3}
+  (    1 +5V )
+  (    2 /AD3 )
+  (    3 GND )
+ )
+ ( /539092C7 $noname  K2 LM35_1 {Lib=CONN_3}
+  (    1 +5V )
+  (    2 /AD2 )
+  (    3 GND )
+ )
+ ( /53908FAF $noname  R5 1k {Lib=R}
+  (    1 +5V )
+  (    2 N-000005 )
+ )
+ ( /53908FAD $noname  R7 1k {Lib=R}
+  (    1 N-000006 )
+  (    2 GND )
+ )
+ ( /53908FA8 $noname  R6 1k {Lib=R}
+  (    1 N-000005 )
+  (    2 N-000006 )
+ )
+ ( /53908F81 $noname  R1 1k {Lib=R}
+  (    1 +5V )
+  (    2 N-000022 )
+ )
+ ( /53908F54 $noname  R2 1k {Lib=R}
+  (    1 N-000024 )
+  (    2 GND )
+ )
+ ( /520A7D54 $noname  R4 1k {Lib=R}
+  (    1 N-000022 )
+  (    2 N-000024 )
+ )
+ ( /523131A6 $noname  ESC1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD1 )
+  (    2 N-000006 )
+ )
+ ( /5231319E $noname  ENTER1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD1 )
+  (    2 GND )
+ )
+ ( /5231308E $noname  RIGHT1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD1 )
+  (    2 N-000005 )
+ )
+ ( /520A85C5 $noname  P8 CONN_4 {Lib=CONN_4}
+  (    1 /IO4 )
+  (    2 /IO3 )
+  (    3 /IO2 )
+  (    4 GND )
+ )
+ ( /520A85BF $noname  P7 CONN_3 {Lib=CONN_4}
+  (    1 ? )
+  (    2 ? )
+  (    3 /IO6 )
+  (    4 /IO5 )
+ )
+ ( /520A85B9 $noname  P6 CONN_2 {Lib=CONN_4}
+  (    1 GND )
+  (    2 /IO7 )
+  (    3 ? )
+  (    4 ? )
+ )
+ ( /520A85B2 $noname  P5 CONN_1 {Lib=CONN_4}
+  (    1 ? )
+  (    2 +5V )
+  (    3 N-000025 )
+  (    4 /IO8 )
+ )
+ ( /520A7E48 $noname  R3 2.2k {Lib=R}
+  (    1 GND )
+  (    2 N-000025 )
+ )
+ ( /520A7C8D $noname  LEFT1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD0 )
+  (    2 GND )
+ )
+ ( /520A7C88 $noname  DOWN1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD0 )
+  (    2 N-000024 )
+ )
+ ( /520A7C7D $noname  UP1 SW_PUSH {Lib=SW_PUSH}
+  (    1 /AD0 )
+  (    2 N-000022 )
+ )
+ ( /4DA69D6F $noname  P2 IOL {Lib=CONN_8}
+  (    1 ? )
+  (    2 ? )
+  (    3 /IO2 )
+  (    4 /IO3 )
+  (    5 /IO4 )
+  (    6 /IO5 )
+  (    7 /IO6 )
+  (    8 /IO7 )
+ )
+ ( /4DA69D6C $noname  P1 IOH {Lib=CONN_8}
+  (    1 /IO8 )
+  (    2 ? )
+  (    3 ? )
+  (    4 /MOSI )
+  (    5 /MISO )
+  (    6 ? )
+  (    7 GND )
+  (    8 ? )
+ )
+ ( /4DA69D5F $noname  P3 AD {Lib=CONN_6}
+  (    1 /AD0 )
+  (    2 /AD1 )
+  (    3 /AD2 )
+  (    4 /AD3 )
+  (    5 ? )
+  (    6 ? )
+ )
+ ( /4DA69D10 $noname  P4 POWER {Lib=CONN_6}
+  (    1 ? )
+  (    2 ? )
+  (    3 +5V )
+  (    4 ? )
+  (    5 GND )
+  (    6 ? )
+ )
+)
+*
+{ Allowed footprints by component:
+$component REL1
+ RELE_VMA001
+ REL*
+$endlist
+$component REL2
+ RELE_VMA001
+ REL*
+$endlist
+$component Q1
+ TO92*
+$endlist
+$component D1
+ D?
+ S*
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component D2
+ D?
+ S*
+$endlist
+$component Q2
+ TO92*
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}
+{ Pin List by Nets
+Net 1 "+5V" "+5V"
+ K2 1
+ K1 1
+ D1 2
+ D2 2
+ P10 1
+ P4 3
+ P9 1
+ P5 2
+ R5 1
+ R1 1
+Net 4 "GND" "GND"
+ R3 1
+ P1 7
+ Q1 3
+ P4 5
+ R2 2
+ LEFT1 2
+ R7 2
+ ENTER1 2
+ Q2 3
+ K1 3
+ P8 4
+ K2 3
+ P6 1
+Net 5 "" ""
+ R6 1
+ R5 2
+ RIGHT1 2
+Net 6 "" ""
+ R6 2
+ ESC1 2
+ R7 1
+Net 7 "/AD1" "AD1"
+ P3 2
+ RIGHT1 1
+ ENTER1 1
+ ESC1 1
+Net 8 "" ""
+ P10 2
+ Q2 1
+ D2 1
+Net 9 "" ""
+ Q2 2
+ R9 2
+Net 10 "/MISO" "MISO"
+ R8 1
+ P1 5
+Net 11 "/IO7" "IO7"
+ P6 2
+ P2 8
+Net 12 "/AD3" "AD3"
+ K1 2
+ P3 4
+Net 18 "/IO8" "IO8"
+ P5 4
+ P1 1
+Net 22 "" ""
+ R1 2
+ R4 1
+ UP1 2
+Net 23 "/AD0" "AD0"
+ LEFT1 1
+ P3 1
+ UP1 1
+ DOWN1 1
+Net 24 "" ""
+ DOWN1 2
+ R2 1
+ R4 2
+Net 25 "" ""
+ P5 3
+ R3 2
+Net 30 "/IO6" "IO6"
+ P2 7
+ P7 3
+Net 31 "/IO5" "IO5"
+ P7 4
+ P2 6
+Net 32 "/IO4" "IO4"
+ P2 5
+ P8 1
+Net 33 "/IO2" "IO2"
+ P8 3
+ P2 3
+Net 37 "/AD2" "AD2"
+ K2 2
+ P3 3
+Net 41 "/IO3" "IO3"
+ P8 2
+ P2 4
+Net 42 "" ""
+ P13 2
+ P16 2
+ P12 2
+ P14 2
+Net 43 "" ""
+ REL2 5
+ P15 1
+Net 44 "" ""
+ P11 2
+ REL1 4
+Net 45 "" ""
+ P14 1
+ REL1 2
+ P16 1
+ REL2 2
+Net 46 "" ""
+ P13 1
+ REL1 3
+Net 48 "" ""
+ REL1 5
+ P11 1
+Net 49 "" ""
+ P12 1
+ REL2 3
+Net 50 "" ""
+ Q1 2
+ R8 2
+Net 51 "" ""
+ D1 1
+ Q1 1
+ P9 2
+Net 52 "" ""
+ P15 2
+ REL2 4
+Net 54 "/MOSI" "MOSI"
+ P1 4
+ R9 1
+}
+#End
