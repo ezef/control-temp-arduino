@@ -6,24 +6,7 @@ HISTORY:
   -histeresis a 0.6
   -guarda tempSet en la EEPROM
  
- Backlight conectada al pin 2 para poder activarla y desactivarla desde el codigo
- 
- para leer del LM35 utilizar en el setup:
- analogReference(INTERNAL); para setear el aref en 1.1v
-  
- en el loop:
- sensorValue=0.0;
-  for(int i= 0;i < 5;i++) // leo 5 veces para tomar una mejor lectura final promedio
-  {
-    //sensorValue += (500.0*analogRead(2)/1024);
-    sensorValue += analogRead(2)/9.31;
-    delay(1000);
-  }
-  
-  sensorValue = sensorValue/5;  //promedio las diversas lecturas para entregar un solo valor de temp
- 
- 
- se muestra el log de temperaturas con rango absoluto entre 0 y 24 grados en el display....
+ Backlight conectada al pin 2 para poder activarla y desactivarla desde el codigo 
  
   */
 
@@ -75,12 +58,10 @@ byte prueba[8]= {  B00001,
 
 
 void setup() {
-  lcd.begin(16, 2);
-  //lcd.cursor();
+  lcd.begin(16, 2);  
 
   Serial.begin(9600);
   
-  //analogReference(INTERNAL);//seteo la referencia interna a 1.1v para la lectura mas precisa de la temp
 
   pinMode(LIGHT,OUTPUT);
   pinMode(RELAY1,OUTPUT);
@@ -119,21 +100,12 @@ void setup() {
   lcd.setCursor(4,1);
   lcd.print(tempSet);
   control_sens(TEMP1);
-  log_update(tempD);
-  
-  
-  /*
-  lcd.createChar(0,prueba);
-  lcd.setCursor(15 , 1);
-    lcd.write(byte(0));
-  */
-    
+  log_update(tempD);    
    
 }
 
 void loop() {
-
-  //lcd.setCursor(i, j);
+  
   
   if (t_boton.state()){ // realiza la lectura de los botones  y actualiza el lcd
     lcd.setCursor(4,1);
@@ -354,7 +326,7 @@ void btnENTER(){
     
     log_escalar(tempSet-auxTempSet); // escala el grafico del loggin en funcion de la nueva tempSet
     
-    tempSet=auxTempSet; // [TODO] guardar valor en la EEPROM
+    tempSet=auxTempSet;
     lcd.setCursor(4,1);
     lcd.print(tempSet);
     
