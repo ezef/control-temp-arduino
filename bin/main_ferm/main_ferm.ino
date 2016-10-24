@@ -13,6 +13,8 @@ HISTORY:
 #include <LiquidCrystal.h>
 #include <EEPROM.h>
 #include <tempo.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #define RS 8
 #define E 7
 #define D4 6
@@ -25,9 +27,10 @@ HISTORY:
 #define RELAY2 11
 #define RELAY1 12
 #define TEMP1 2
-#define TEMP2 3
 #define HISTERESIS 0.6
 #define ADDR 0 //direccion de la EEPROM para la tempSet
+#define ADDR1 1 // direccion de la EEPROM para la tempSet1
+#define BUSONEWIRE 9
 
 LiquidCrystal lcd(RS , E , D4 , D3 , D2 , D1);
 int laststate[] = {
@@ -35,26 +38,21 @@ int laststate[] = {
 int i,j;
 int a0,a1;
 int tempSet,auxTempSet;
+int tempSet1,auxTempSet1;
 int minTemp,maxTemp;
-
-float tempC,tempD;
+float tempD;
+float temp1;
 
 boolean tempSetChange, //variable que indica si se ha cambiado la tref pero no se ha guardado.
-        blinkState;
+        blinkState,
+        tempSetChange1;
 
 Tempo t_boton(100); //temporizador para lectura de botones
 Tempo t_temp(30*1000); // temporizador para la lectura de temperatura
 Tempo t_blink(300); // temporizador para el parpadeo del lcd
 
-unsigned long logTemp[8]={0,0,0,0,0,0,0,0};
-byte prueba[8]= {  B00001,
-                   B00001,
-                   B00001,
-                   B00010,
-                   B00001,
-                   B00001,
-                   B00001,
-                   B00001};
+OneWire oneWire(BUSONEWIRE);
+DallasTemperature sensors(&oneWire);
 
 
 void setup() {
@@ -65,42 +63,45 @@ void setup() {
 
   pinMode(LIGHT,OUTPUT);
   pinMode(RELAY1,OUTPUT);
- 
+ pinMode(RELAY2,OUTPUT);
 
   digitalWrite(LIGHT,HIGH);
   digitalWrite(14,HIGH); //pullup de a0 para lectura de los botones
   digitalWrite(15,HIGH); //pullup de a1 para lectura de los botones
 
   i=0; //columna de cursor
-  j=1; //fila de cursor
-  
-  tempC = 0.0;
-  tempD = 0.0;  
+  j=1; //fila de cursor  
+ 
   minTemp=0;  //temps minimas y maximas de seteo.
   maxTemp=25;
 
   tempSetChange= false; // variable para indicar si la setTemp fue cambiada
+  tempSetChange1= false;
   blinkState= false;    //variable para indicar el estado del parpadeo en la funcion parpadeartexto()
+  tempSetChange1=false;
 
 
   tempSet=EEPROM.read(ADDR); //leo la temp guardada en la EEPROM.
+  tempSet1=EEPROM.read(ADDR1);
   auxTempSet = tempSet;
 
-  lcd.print("    SOFTWARE   ");
+  lcd.print("   El Mason te  ");
   lcd.setCursor(0,1);        
-  lcd.print("    BIRRERO    ");
+  lcd.print("    la pone!    ");
   
   delay(2500);
   lcd.clear();
   
-  lcd.print("Ca:      De:    ");
+  lcd.print("F1:     F2:     ");
   lcd.setCursor(0,1);
-  lcd.print("SET:      LOGTEP");
+  lcd.print("S1:    S2:    ");
 
-  lcd.setCursor(4,1);
+  lcd.setCursor(3,1);
   lcd.print(tempSet);
+  lcd.setCursor(12,1);
   control_sens(TEMP1);
-  log_update(tempD);    
+  control_sensado_18b20(BUSONEWIRE);
+      
    
 }
 
@@ -113,12 +114,15 @@ void loop() {
   }
 
   if (tempSetChange){ //si la tempSet cambia,  parpadea hasta apretar enter 
-    parpadeartexto(auxTempSet);
+    parpadeartexto(auxTempSet,3);
+  }
+    if (tempSetChange1){ //si la tempSet cambia,  parpadea hasta apretar enter 
+    parpadeartexto(auxTempSet1,10);
   }
 
   if (t_temp.state()){ // realiza la lectura de la temperatura, actualiza el lcd y comanda los relays.
     control_sens(TEMP1);
-    log_update(tempD);
+    
         
   }  
 
@@ -143,23 +147,45 @@ void control_sens(int pin){
 void control_comandar(){
     if(tempD > tempSet+HISTERESIS){
       digitalWrite(RELAY1,HIGH);
-      lcd.setCursor(7,1);
+      lcd.setCursor(5,1);
       lcd.print("ON");
       }
     else{
         if ( tempD<tempSet-HISTERESIS)
           { digitalWrite(RELAY1,LOW);
-            lcd.setCursor(7,1);
+            lcd.setCursor(5,1);
             lcd.print("  ");
           }
-      }
+      }  
+}
+
+void  control_sensado_18b20(int pin){
+  sensors.requestTemperatures();
+  temp1=sensors.getTempCByIndex(0);
+  control_comandar_18b20();
   
 }
 
-void parpadeartexto(int texto){
+void control_comandar_18b20(){  
+      if(temp1 > tempSet1+HISTERESIS){
+      digitalWrite(RELAY2,HIGH);
+      lcd.setCursor(12,1);
+      lcd.print("ON");
+      }
+    else{
+        if ( tempD<tempSet-HISTERESIS)
+          { digitalWrite(RELAY2,LOW);
+            lcd.setCursor(12,1);
+            lcd.print("  ");
+          }
+      }
+}
 
+
+
+void parpadeartexto(int texto,int posicion){
   if (t_blink.state()){
-    lcd.setCursor(4,1);
+    lcd.setCursor(posicion,1);
     
     if (blinkState){ 
       lcd.print("  ");
@@ -171,60 +197,10 @@ void parpadeartexto(int texto){
     }    
   }
 
-}
-
-
-void log_update(int temp){ // se actualiza todo el loggin de temperatura 
-  temp = temp - (tempSet - 3); //ajusto la temp recibida para q se muetre entre +-3 grados de la tempSet.
-  for (int i=0;i<8;i++){ // recorro cada linea del logtemp, realizo un corrimiento de 1 bit a la izq y agrego o no un bit menos significativo en 1 dependiendo de la temperatura. 
-    logTemp[i] = logTemp[i] << 1;
-    if (i < temp){
-      logTemp[i] = logTemp[i] | B1;
-    }    
-  }
-  log_show();
   
-}
   
-void log_show(){
-  unsigned long porcion = B11111;
-  for (int i=0;i<6;i++){     // por cada caracter(son 6) corto el logTemp cada 5 columnas y genero el char a imprimir
-    byte impr[8];       
-    for (int j=0;j<8;j++){  //recorro el logtemp para este caracter y corto cada porcion de cada linea
-      impr[7 -j] = (logTemp[j]  & porcion) >> i*5 ;   
-      
-    }      
-    porcion = porcion << 5;
-    
-    lcd.createChar(i,impr);
-    lcd.setCursor(15-i , 1);
-    lcd.write(byte(i));    
-  }
-}
 
-void log_escalar(int diff){
-  
-  if(diff>0){      
-    for (int j=0;j<diff;j++){
-      
-      for (int i=7;i>0;i--){
-        logTemp[i]=logTemp[i-1];    
-        
-      }
-      logTemp[0]=0xffffffff;    
-    }
-  }
-  else{    
-    for (int j=0;j<abs(diff);j++){      
-      for (int i=0;i<7;i++){
-        logTemp[i]=logTemp[i+1];       
-      }
-      logTemp[7]=0;    
-    }    
-  }  
-  log_show();  
-} 
- 
+}
 
 void lecturabotones() 
 { 
@@ -291,13 +267,19 @@ void lecturabotones()
 
 void btnLEFT(){
   //Serial.println("left");
-  
+    if(auxTempSet1 > minTemp){
+    auxTempSet1--;
+    tempSetChange1=true;
+  }
   
 }
 
 void btnRIGHT(){
   //Serial.println("right");
-   
+     if (auxTempSet1 < maxTemp){
+    auxTempSet1++;
+    tempSetChange1=true;
+  }
   
 } 
 
@@ -322,28 +304,45 @@ void btnUP(){
 void btnENTER(){
   //Serial.println("enter");
   if (tempSetChange){     // en caso de cambiar la temperatura de referencia esta espera confirmacion presionando enter... 
-    tempSetChange=false; 
-    
-    log_escalar(tempSet-auxTempSet); // escala el grafico del loggin en funcion de la nueva tempSet
+    tempSetChange=false;     
     
     tempSet=auxTempSet;
-    lcd.setCursor(4,1);
+    lcd.setCursor(3,1);
     lcd.print(tempSet);
     
     EEPROM.write(ADDR,tempSet);
 
     control_comandar(); 
+  }  
+  if (tempSetChange1){
+    tempSetChange1=false;     
+    
+    tempSet1=auxTempSet1;
+    lcd.setCursor(10,1);
+    lcd.print(tempSet);
+    
+    EEPROM.write(ADDR1,tempSet1);
+
+    control_comandar_18b20();
   }
 } 
 
 void btnESC(){
   //Serial.println("esc");
+  
   if (tempSetChange){    
     auxTempSet=tempSet;  
     tempSetChange=false;
     
-    lcd.setCursor(4,1);
+    lcd.setCursor(3,1);
     lcd.print(auxTempSet);    
+  }  
+   if (tempSetChange1){    
+    auxTempSet1=tempSet1;  
+    tempSetChange1=false;
+    
+    lcd.setCursor(10,1);
+    lcd.print(auxTempSet1);    
   }
 } 
 
