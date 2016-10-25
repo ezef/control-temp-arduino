@@ -63,7 +63,7 @@ void setup() {
 
   pinMode(LIGHT,OUTPUT);
   pinMode(RELAY1,OUTPUT);
- pinMode(RELAY2,OUTPUT);
+  pinMode(RELAY2,OUTPUT);
 
   digitalWrite(LIGHT,HIGH);
   digitalWrite(14,HIGH); //pullup de a0 para lectura de los botones
@@ -122,6 +122,7 @@ void loop() {
 
   if (t_temp.state()){ // realiza la lectura de la temperatura, actualiza el lcd y comanda los relays.
     control_sens(TEMP1);
+	control_sensado_18b20(BUSONEWIRE);
     
         
   }  
@@ -173,7 +174,7 @@ void control_comandar_18b20(){
       lcd.print("ON");
       }
     else{
-        if ( tempD<tempSet-HISTERESIS)
+        if ( temp1<tempSet-HISTERESIS)
           { digitalWrite(RELAY2,LOW);
             lcd.setCursor(12,1);
             lcd.print("  ");
